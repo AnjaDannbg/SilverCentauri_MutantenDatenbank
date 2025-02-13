@@ -1,0 +1,4 @@
+@import "fonts";
+@import "variables";
+// Änderungen an Bootstrap Variablen müssen vor dem Import der Basisdateien hinzugefügt werden.
+@import "bootstrap/bootstrap.scss";
