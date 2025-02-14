@@ -1,6 +1,14 @@
+// Änderungen an Bootstrap Variablen müssen vor dem Import der Basisdateien hinzugefügt werden.
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1520px
+);
+
 @import "fonts";
 @import "variables";
-// Änderungen an Bootstrap Variablen müssen vor dem Import der Basisdateien hinzugefügt werden.
 @import "bootstrap/bootstrap.scss";
 
 * {
@@ -17,4 +25,8 @@
 
 .my-tabel-color-2 {
   background-color: $gray-100;
+}
+
+.navbar-brand img {
+  height: 5rem;
 }
