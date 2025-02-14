@@ -11945,4 +11945,20 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+* {
+  -webkit-hyphens: auto;
+          hyphens: auto;
+}
+
+.my-table-head {
+  font-weight: normal;
+}
+
+.my-tabel-color-1 {
+  background-color: #e9ecef;
+}
+
+.my-tabel-color-2 {
+  background-color: #f8f9fa;
 }/*# sourceMappingURL=styles.css.map */

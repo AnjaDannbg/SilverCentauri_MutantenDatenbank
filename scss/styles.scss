@@ -2,3 +2,19 @@
 @import "variables";
 // Änderungen an Bootstrap Variablen müssen vor dem Import der Basisdateien hinzugefügt werden.
 @import "bootstrap/bootstrap.scss";
+
+* {
+  hyphens: auto;
+}
+
+.my-table-head {
+  font-weight: normal;
+}
+
+.my-tabel-color-1 {
+  background-color: $gray-200;
+}
+
+.my-tabel-color-2 {
+  background-color: $gray-100;
+}
