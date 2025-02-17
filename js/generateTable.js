@@ -1,7 +1,20 @@
 'use strict';
 
-// const root = document.getElementById('root');
-const main_table = document.getElementById('main_table');
+const MAIN_TABLE = document.getElementById('main_table');
+
+const init = () => {
+  fillTableWithContent(covertCSVToArray(mutantDataCSV), MAIN_TABLE);
+  // sortTableBy('Produkt', covertCSVToArray(mutantDataCSV), MAIN_TABLE);
+}
+
+
+// Aktueller Tabellenfilter;
+let currentFilter = '';
+let currentSortingValue = 'Produkt';
+
+const setCurrentFilter = (filterText) => currentFilter = filterText;
+const setCurrentSortingValue = (sortingValue) => currentSortingValue = sortingValue;
+
 
 let mutantDataCSV =
   `Produkt,Startjahr,Endjahr,Tierart,Anzahl Tiere,Erfolgsquote,Erfolgreiche Mutierungen,Kommentar
@@ -38,12 +51,12 @@ const covertCSVToArray = (csv) => {
 
 }
 
-// Kommazahlen oder Prozent in Zahl umwandeln
+// Wandle Kommazahlen oder Prozent in Zahl um
 const asNumber = (content) => {
-  if(content.endsWith('%')) {
+  if (String(content).endsWith('%')) {
     content = content.substring(0, content.length - 1).trim();
   }
-  content.replace(',','.'); // Kommazahl in englische Schreibweise umwandeln
+  content.replace(',', '.'); // Kommazahl in englische Schreibweise umwandeln
   // console.log('content type: ', typeof Number(content));
   // console.log('content: ', Number(content));
   return Number(content);
@@ -51,7 +64,7 @@ const asNumber = (content) => {
 
 // Generiere und befülle Tabelle
 const fillTableWithContent = (inputArray, table) => {
-  table.innerHTML = '';
+  table.innerHTML = ''; // Tabelle leeren
   const TABLE_ROW_COUNT = inputArray[0].length; // Tabellenzeilen berechnen => 8
   const TABLE_COLUMN_COUNT = inputArray.length; // Tabellenspalten berechnen => 27
 
@@ -76,51 +89,84 @@ const fillTableWithContent = (inputArray, table) => {
 
   // Tabellenüberschriften erstellen
   table.querySelector(`.row:first-child`).classList.add('my-table-head');
-  // Tabelle einfärben
+
   colorizeTable(table);
   removeEmptyInput(table);
+  setClickableHeader(table);
 
 }
 
 // Entferne [Kommentar] aus Tabelle
 const removeEmptyInput = (table) => {
-  console.log('call: removeEmptyInput');
-  console.log(table.querySelector('.row div').innerHTML);
   let cells = table.querySelectorAll('.row div');
   cells.forEach(cell => cell.innerHTML = (cell.innerHTML === '[Kommentar]' ? '' : cell.innerHTML));
 }
 
+// Färbe Tabelle ein
 const colorizeTable = (table) => {
   table.querySelectorAll(`.row:nth-child(2n)`).forEach(row => row.classList.add('my-tabel-color-1'));
   table.querySelectorAll(`.row:nth-child(2n+1)`).forEach(row => row.classList.add('my-tabel-color-2'));
   table.querySelector(`.my-table-head`).classList.add('bg-secondary', 'bg-gradient', 'text-white');
 }
 
-// sortiere die Liste bei click auf Spaltenüberschrift - WIP:
+// Sortiere die Tabelle bei click auf Spaltenüberschrift:
 const sortTableBy = (tableHead, tableContentArray, table) => {
-  const COLUMN_INDEX = Array.from(table.querySelectorAll('.my-table-head div')).findIndex(div => div.innerHTML === tableHead);
-  let newTableContentArray = tableContentArray.map(a => a);
-  let sortedArray = [];
-  let tableContentHeaders = newTableContentArray.shift(); // Überschriften vor dem Sortieren entfernt
+  setCurrentSortingValue(tableHead);
+  console.log('currentSortingValue', currentSortingValue);
 
-  let content = asNumber(newTableContentArray[0][COLUMN_INDEX]);
+  let sortedContentArray = tableContentArray;
   
-  if(!isNaN(content)) {
-    console.log('ist numerisch');
-    sortedArray = newTableContentArray.sort((a, b) => asNumber(a[COLUMN_INDEX]) - asNumber(b[COLUMN_INDEX]));
+  const COLUMN_INDEX = Array.from(table.querySelectorAll('.my-table-head div')).findIndex(div => div.innerHTML === tableHead);
 
-  } else if (isNaN(content)) {
+  let tableContentHeaders = tableContentArray.shift(); // Überschriften vor dem Sortieren entfernt
+
+  // Prüfe, ob Spalteninhalt Nummer ist
+  let columnContent = asNumber(tableContentArray[0][COLUMN_INDEX]);
+
+  if (!isNaN(columnContent)) {
+    console.log('ist numerisch');
+    sortedContentArray = tableContentArray.sort((a, b) => asNumber(a[COLUMN_INDEX]) - asNumber(b[COLUMN_INDEX]));
+
+  } else if (isNaN(columnContent)) {
     console.log('ist String');
-    sortedArray = newTableContentArray.sort((a, b) => a[COLUMN_INDEX] < b[COLUMN_INDEX] ? -1 : 1);
+    sortedContentArray = tableContentArray.sort((a, b) => a[COLUMN_INDEX] < b[COLUMN_INDEX] ? -1 : 1);
 
   }
-
-
-  // Tabelle neu ausfüllen:
-  sortedArray.unshift(tableContentHeaders); // Überschrift hinzufügen
-  fillTableWithContent(sortedArray, table);
+  
+  sortedContentArray.unshift(tableContentHeaders); // Überschrift hinzufügen
+  
+  return sortedContentArray;
 }
 
-fillTableWithContent(covertCSVToArray(mutantDataCSV), main_table);
-sortTableBy('Erfolgsquote', covertCSVToArray(mutantDataCSV), main_table);
+// Filtere Tabelleninhalt nach filterText
+const filterTableBy = (filterText, tableContentArray) => {
+  setCurrentFilter(filterText);
+  // console.log('currentFilter', currentFilter);
+  
+  let filteredContentArray = tableContentArray;
+  if (filterText !== '') {
+    let tableContentHeaders = tableContentArray.shift(); // Überschriften vor dem Filtern entfernen
+    
+    filteredContentArray = tableContentArray.filter(content => content.some(cell => cell.includes(filterText)));  // Tabelleninhalt filtern
+
+    filteredContentArray.unshift(tableContentHeaders); // Überschrift hinzufügen
+  }
+  return filteredContentArray;
+    
+}
+
+// EVENT: Mach Tabellenüberschriften clickbar
+const setClickableHeader = (table) => {
+  document.querySelectorAll('.my-table-head > div').forEach(tableHead => tableHead.addEventListener('click', (event) => {
+    let tableContentArray = covertCSVToArray(mutantDataCSV);
+    let tableHeadName = event.target.innerHTML;
+    // console.log('tableHeadName:', tableHeadName);
+    let sortedContentArray = sortTableBy(tableHeadName, tableContentArray, table);
+    let filteredContentArray = filterTableBy(currentFilter, sortedContentArray);
+    fillTableWithContent(filteredContentArray, MAIN_TABLE);
+  }));
+}
+
+
+init();
 

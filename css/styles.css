@@ -11953,6 +11953,7 @@ textarea.form-control-lg {
 
 .my-table-head {
   font-weight: normal;
+  cursor: pointer;
 }
 
 .my-tabel-color-1 {
