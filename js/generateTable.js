@@ -38,6 +38,17 @@ const covertCSVToArray = (csv) => {
 
 }
 
+// Kommazahlen oder Prozent in Zahl umwandeln
+const asNumber = (content) => {
+  if(content.endsWith('%')) {
+    content = content.substring(0, content.length - 1).trim();
+  }
+  content.replace(',','.'); // Kommazahl in englische Schreibweise umwandeln
+  // console.log('content type: ', typeof Number(content));
+  // console.log('content: ', Number(content));
+  return Number(content);
+}
+
 // Generiere und befülle Tabelle
 const fillTableWithContent = (inputArray, table) => {
   table.innerHTML = '';
@@ -88,29 +99,28 @@ const colorizeTable = (table) => {
 // sortiere die Liste bei click auf Spaltenüberschrift - WIP:
 const sortTableBy = (tableHead, tableContentArray, table) => {
   const COLUMN_INDEX = Array.from(table.querySelectorAll('.my-table-head div')).findIndex(div => div.innerHTML === tableHead);
-  // console.log('COLUMN_INDEX:', COLUMN_INDEX);
   let newTableContentArray = tableContentArray.map(a => a);
   let sortedArray = [];
   let tableContentHeaders = newTableContentArray.shift(); // Überschriften vor dem Sortieren entfernt
-  console.log('newTableContentArray:', newTableContentArray)
 
-  if(!isNaN(newTableContentArray[0][COLUMN_INDEX])) {
+  let content = asNumber(newTableContentArray[0][COLUMN_INDEX]);
+  
+  if(!isNaN(content)) {
     console.log('ist numerisch');
-    
-    sortedArray = newTableContentArray.sort((a, b) => Number(a[COLUMN_INDEX]) - Number(b[COLUMN_INDEX]));
+    sortedArray = newTableContentArray.sort((a, b) => asNumber(a[COLUMN_INDEX]) - asNumber(b[COLUMN_INDEX]));
 
-  } else if (isNaN(newTableContentArray[0][COLUMN_INDEX])) {
+  } else if (isNaN(content)) {
     console.log('ist String');
     sortedArray = newTableContentArray.sort((a, b) => a[COLUMN_INDEX] < b[COLUMN_INDEX] ? -1 : 1);
 
   }
 
-  console.log('sortedArray:', sortedArray)
+
   // Tabelle neu ausfüllen:
   sortedArray.unshift(tableContentHeaders); // Überschrift hinzufügen
   fillTableWithContent(sortedArray, table);
 }
 
 fillTableWithContent(covertCSVToArray(mutantDataCSV), main_table);
-sortTableBy('Tierart', covertCSVToArray(mutantDataCSV), main_table);
+sortTableBy('Erfolgsquote', covertCSVToArray(mutantDataCSV), main_table);
 
