@@ -6,6 +6,7 @@
   <title>Silver Centauri - Mutanten</title>
   <link href="css/styles.css" rel="stylesheet" media="screen">
   <script defer src="js/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/helper_functions.js"></script>
   <script defer src="js/generateTable.js"></script>
   <script defer src="js/events.js"></script>
 </head>
@@ -33,10 +34,10 @@
       <h2 class="display-6 py-4">Tabelle 1</h2>
       <form class="pb-3 px-0">
         <label for="filter">Filter:</label>
-        <input type="text" name="filter" class="mx-1 my-1">
+        <input type="text" name="filter" id="filter" class="mx-1 my-1">
 
         <label for="mutantennummer">Mutantennummer:</label>
-        <input type="search" name="mutantennummer" class="mx-1 my-1">
+        <input type="search" name="mutantennummer" id="mutantennummer" class="mx-1 my-1">
       </form>
 
       <div id="main_table" class="pb-4">

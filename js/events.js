@@ -3,14 +3,21 @@
 // EVENT: Mach Tabelle filterbar
 document.querySelector('input[name = "filter"]').addEventListener('keyup', (event) => {
   // Handling
-  const FILTER_TEXT = event.target.value;
-  
   let tableContentArray = covertCSVToArray(mutantDataCSV);
-
-  let filteredContentArray = filterTableBy(FILTER_TEXT, tableContentArray);
-
-  let sortedContentArray = sortTableBy(currentSortingValue, filteredContentArray, MAIN_TABLE);
-
-  fillTableWithContent(sortedContentArray, MAIN_TABLE);
+  setCurrentFilter(event.target.value);
+  updateTable(tableContentArray, MAIN_TABLE);
 });
+
+// EVENT: Mach Tabellenüberschriften clickbar
+const setClickableHeader = (table) => {
+  document.querySelectorAll('.my-table-head > div').forEach(tableHead => tableHead.addEventListener('click', (event) => {
+    // Handling
+    let tableContentArray = covertCSVToArray(mutantDataCSV);
+    setCurrentSortingValue(event.target.innerHTML);
+    updateTable(tableContentArray, table);
+  }));
+}
+
+init();
+
 

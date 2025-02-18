@@ -1,6 +1,5 @@
 'use strict';
 
-const MAIN_TABLE = document.getElementById('main_table');
 
 const init = () => {
   const INIT_TABLE_CONTENT = covertCSVToArray(mutantDataCSV)
@@ -9,9 +8,9 @@ const init = () => {
   // sortTableBy('Produkt', covertCSVToArray(mutantDataCSV), MAIN_TABLE);
 }
 
+const MAIN_TABLE = document.getElementById('main_table');
 const COLUMN_CONTENT_TYPES = [];
 
-// Aktueller Tabellenfilter;
 let currentFilter = '';
 let currentSortingValue = 'Produkt';
 
@@ -54,23 +53,19 @@ const covertCSVToArray = (csv) => {
 
 }
 
+// Array mit Datentyp von Tabellenspalte erzeugen
 const rememberColumnContentTypes = (tableContentArray) => {
 
   for(let i=0; i<tableContentArray[0].length; i++) {
-    // Prüfe, ob Spalteninhalt Nummer ist
+
     let columnContent = asNumber(tableContentArray[1][i]);
   
     if (!isNaN(columnContent)) {
-      console.log('ist numerisch');
       COLUMN_CONTENT_TYPES.push('number');
-  
     } else if (isNaN(columnContent)) {
-      console.log('ist String');
       COLUMN_CONTENT_TYPES.push('string');
-  
     }
   }
-  console.log('COLUMN_CONTENT_TYPES', COLUMN_CONTENT_TYPES);
 }
 
 // Wandle Kommazahlen oder Prozent in Zahl um
@@ -93,7 +88,6 @@ const fillTableWithContent = (inputArray, table) => {
   const BOOTSTRAP_TABLE_SIZE = 12
   const COLUMN_SIZE = Math.floor(Number(BOOTSTRAP_TABLE_SIZE / TABLE_ROW_COUNT)); // Spaltengröße berechnen => 1
 
-
   for (let i = 0; i < TABLE_COLUMN_COUNT; i++) { // Reihe befüllen
 
     table.innerHTML += `<div class="row"></div>`;
@@ -104,18 +98,14 @@ const fillTableWithContent = (inputArray, table) => {
         (BOOTSTRAP_TABLE_SIZE - j) // Die letzte Spalte füllt den Restplatz aus
         : COLUMN_SIZE
         } border">${inputArray[i][j]}</div>`;
-
     }
-
   }
-
   // Tabellenüberschriften erstellen
   table.querySelector(`.row:first-child`).classList.add('my-table-head');
 
   colorizeTable(table);
   removeEmptyInput(table);
   setClickableHeader(table);
-
 }
 
 // Entferne [Kommentar] aus Tabelle
@@ -144,19 +134,14 @@ const sortTableBy = (tableHead, tableContentArray, table) => {
 
   // Prüfe, ob Tabelleninhalt leer ist
   if(tableContentArray.length !== 0) {
-    // Prüfe, ob Spalteninhalt Nummer ist
-    let columnContent = asNumber(tableContentArray[0][COLUMN_INDEX]);
-  
     if (COLUMN_CONTENT_TYPES[COLUMN_INDEX] === 'number') {
       console.log('ist numerisch');
       sortedContentArray = tableContentArray.sort((a, b) => asNumber(a[COLUMN_INDEX]) - asNumber(b[COLUMN_INDEX]));
-  
     } else if (COLUMN_CONTENT_TYPES[COLUMN_INDEX] === 'string') {
       console.log('ist String');
       sortedContentArray = tableContentArray.sort((a, b) => a[COLUMN_INDEX] < b[COLUMN_INDEX] ? -1 : 1);
     }
   }
-  
   sortedContentArray.unshift(tableContentHeaders); // Überschrift hinzufügen
   
   return sortedContentArray;
@@ -179,18 +164,15 @@ const filterTableBy = (filterText, tableContentArray) => {
     
 }
 
-// EVENT: Mach Tabellenüberschriften clickbar
-const setClickableHeader = (table) => {
-  document.querySelectorAll('.my-table-head > div').forEach(tableHead => tableHead.addEventListener('click', (event) => {
-    let tableContentArray = covertCSVToArray(mutantDataCSV);
-    let tableHeadName = event.target.innerHTML;
-    // console.log('tableHeadName:', tableHeadName);
-    let sortedContentArray = sortTableBy(tableHeadName, tableContentArray, table);
-    let filteredContentArray = filterTableBy(currentFilter, sortedContentArray);
-    fillTableWithContent(filteredContentArray, MAIN_TABLE);
-  }));
+const updateTable = (tableContentArray, table) => {
+  
+  let filteredContentArray = filterTableBy(currentFilter, tableContentArray); // filtern
+  let sortedContentArray = sortTableBy(currentSortingValue, filteredContentArray, table); // sortieren
+
+  fillTableWithContent(sortedContentArray, table); // Tabelle ausfüllen
 }
 
 
-init();
+
+
 
