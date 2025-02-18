@@ -1,20 +1,12 @@
 'use strict';
 
-
-const init = () => {
-  const INIT_TABLE_CONTENT = covertCSVToArray(mutantDataCSV)
-  fillTableWithContent(INIT_TABLE_CONTENT, MAIN_TABLE);
-  rememberColumnContentTypes(INIT_TABLE_CONTENT);
-  // sortTableBy('Produkt', covertCSVToArray(mutantDataCSV), MAIN_TABLE);
-}
-
 const MAIN_TABLE = document.getElementById('main_table');
 const COLUMN_CONTENT_TYPES = [];
 
-let currentFilter = '';
+let currentFilterValue = '';
 let currentSortingValue = 'Produkt';
 
-const setCurrentFilter = (filterText) => currentFilter = filterText;
+const setCurrentFilterValue = (filterValue) => currentFilterValue = filterValue;
 const setCurrentSortingValue = (sortingValue) => currentSortingValue = sortingValue;
 
 
@@ -56,10 +48,10 @@ const covertCSVToArray = (csv) => {
 // Array mit Datentyp von Tabellenspalte erzeugen
 const rememberColumnContentTypes = (tableContentArray) => {
 
-  for(let i=0; i<tableContentArray[0].length; i++) {
+  for (let i = 0; i < tableContentArray[0].length; i++) {
 
     let columnContent = asNumber(tableContentArray[1][i]);
-  
+
     if (!isNaN(columnContent)) {
       COLUMN_CONTENT_TYPES.push('number');
     } else if (isNaN(columnContent)) {
@@ -121,52 +113,47 @@ const colorizeTable = (table) => {
   table.querySelector(`.my-table-head`).classList.add('bg-secondary', 'bg-gradient', 'text-white');
 }
 
-// Sortiere die Tabelle bei click auf Spaltenüberschrift:
+// Sortiere den Tabelleninhalt:
 const sortTableBy = (tableHead, tableContentArray, table) => {
-  setCurrentSortingValue(tableHead);
-  console.log('currentSortingValue', currentSortingValue);
-
   let sortedContentArray = tableContentArray;
   
-  const COLUMN_INDEX = Array.from(table.querySelectorAll('.my-table-head div')).findIndex(div => div.innerHTML === tableHead);
-
-  let tableContentHeaders = tableContentArray.shift(); // Überschriften vor dem Sortieren entfernt
-
+  let tableContentHeaders = tableContentArray.shift(); // entferne Überschriften vor dem Sortieren
+  
   // Prüfe, ob Tabelleninhalt leer ist
-  if(tableContentArray.length !== 0) {
+  if (tableContentArray.length !== 0) {
+    const COLUMN_INDEX = Array.from(table.querySelectorAll('.my-table-head div')).findIndex(div => div.innerHTML === tableHead);
+
     if (COLUMN_CONTENT_TYPES[COLUMN_INDEX] === 'number') {
-      console.log('ist numerisch');
+      // console.log('ist numerisch');
       sortedContentArray = tableContentArray.sort((a, b) => asNumber(a[COLUMN_INDEX]) - asNumber(b[COLUMN_INDEX]));
     } else if (COLUMN_CONTENT_TYPES[COLUMN_INDEX] === 'string') {
-      console.log('ist String');
+      // console.log('ist String');
       sortedContentArray = tableContentArray.sort((a, b) => a[COLUMN_INDEX] < b[COLUMN_INDEX] ? -1 : 1);
     }
   }
   sortedContentArray.unshift(tableContentHeaders); // Überschrift hinzufügen
-  
+
   return sortedContentArray;
 }
 
-// Filtere Tabelleninhalt nach filterText
+// Filtere den Tabelleninhalt
 const filterTableBy = (filterText, tableContentArray) => {
-  setCurrentFilter(filterText);
-  // console.log('currentFilter', currentFilter);
-  
   let filteredContentArray = tableContentArray;
+
   if (filterText !== '') {
-    let tableContentHeaders = tableContentArray.shift(); // Überschriften vor dem Filtern entfernen
-    
+    let tableContentHeaders = tableContentArray.shift(); // entferne Überschriften vor dem Filtern
+
     filteredContentArray = tableContentArray.filter(content => content.some(cell => cell.includes(filterText)));  // Tabelleninhalt filtern
 
     filteredContentArray.unshift(tableContentHeaders); // Überschrift hinzufügen
   }
   return filteredContentArray;
-    
+
 }
 
 const updateTable = (tableContentArray, table) => {
-  
-  let filteredContentArray = filterTableBy(currentFilter, tableContentArray); // filtern
+
+  let filteredContentArray = filterTableBy(currentFilterValue, tableContentArray); // filtern
   let sortedContentArray = sortTableBy(currentSortingValue, filteredContentArray, table); // sortieren
 
   fillTableWithContent(sortedContentArray, table); // Tabelle ausfüllen

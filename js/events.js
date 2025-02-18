@@ -4,7 +4,7 @@
 document.querySelector('input[name = "filter"]').addEventListener('keyup', (event) => {
   // Handling
   let tableContentArray = covertCSVToArray(mutantDataCSV);
-  setCurrentFilter(event.target.value);
+  setCurrentFilterValue(event.target.value);
   updateTable(tableContentArray, MAIN_TABLE);
 });
 
@@ -18,6 +18,5 @@ const setClickableHeader = (table) => {
   }));
 }
 
-init();
 
 
