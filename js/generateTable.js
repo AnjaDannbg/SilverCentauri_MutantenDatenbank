@@ -3,10 +3,13 @@
 const MAIN_TABLE = document.getElementById('main_table');
 
 const init = () => {
-  fillTableWithContent(covertCSVToArray(mutantDataCSV), MAIN_TABLE);
+  const INIT_TABLE_CONTENT = covertCSVToArray(mutantDataCSV)
+  fillTableWithContent(INIT_TABLE_CONTENT, MAIN_TABLE);
+  rememberColumnContentTypes(INIT_TABLE_CONTENT);
   // sortTableBy('Produkt', covertCSVToArray(mutantDataCSV), MAIN_TABLE);
 }
 
+const COLUMN_CONTENT_TYPES = [];
 
 // Aktueller Tabellenfilter;
 let currentFilter = '';
@@ -49,6 +52,25 @@ const covertCSVToArray = (csv) => {
   let objectArray = csv.split('\n').map(csvLine => csvLine.split(','));
   return objectArray;
 
+}
+
+const rememberColumnContentTypes = (tableContentArray) => {
+
+  for(let i=0; i<tableContentArray[0].length; i++) {
+    // Prüfe, ob Spalteninhalt Nummer ist
+    let columnContent = asNumber(tableContentArray[1][i]);
+  
+    if (!isNaN(columnContent)) {
+      console.log('ist numerisch');
+      COLUMN_CONTENT_TYPES.push('number');
+  
+    } else if (isNaN(columnContent)) {
+      console.log('ist String');
+      COLUMN_CONTENT_TYPES.push('string');
+  
+    }
+  }
+  console.log('COLUMN_CONTENT_TYPES', COLUMN_CONTENT_TYPES);
 }
 
 // Wandle Kommazahlen oder Prozent in Zahl um
@@ -120,17 +142,19 @@ const sortTableBy = (tableHead, tableContentArray, table) => {
 
   let tableContentHeaders = tableContentArray.shift(); // Überschriften vor dem Sortieren entfernt
 
-  // Prüfe, ob Spalteninhalt Nummer ist
-  let columnContent = asNumber(tableContentArray[0][COLUMN_INDEX]);
-
-  if (!isNaN(columnContent)) {
-    console.log('ist numerisch');
-    sortedContentArray = tableContentArray.sort((a, b) => asNumber(a[COLUMN_INDEX]) - asNumber(b[COLUMN_INDEX]));
-
-  } else if (isNaN(columnContent)) {
-    console.log('ist String');
-    sortedContentArray = tableContentArray.sort((a, b) => a[COLUMN_INDEX] < b[COLUMN_INDEX] ? -1 : 1);
-
+  // Prüfe, ob Tabelleninhalt leer ist
+  if(tableContentArray.length !== 0) {
+    // Prüfe, ob Spalteninhalt Nummer ist
+    let columnContent = asNumber(tableContentArray[0][COLUMN_INDEX]);
+  
+    if (COLUMN_CONTENT_TYPES[COLUMN_INDEX] === 'number') {
+      console.log('ist numerisch');
+      sortedContentArray = tableContentArray.sort((a, b) => asNumber(a[COLUMN_INDEX]) - asNumber(b[COLUMN_INDEX]));
+  
+    } else if (COLUMN_CONTENT_TYPES[COLUMN_INDEX] === 'string') {
+      console.log('ist String');
+      sortedContentArray = tableContentArray.sort((a, b) => a[COLUMN_INDEX] < b[COLUMN_INDEX] ? -1 : 1);
+    }
   }
   
   sortedContentArray.unshift(tableContentHeaders); // Überschrift hinzufügen
