@@ -772,7 +772,7 @@ progress {
 }
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1520px;
+    max-width: 1320px;
   }
 }
 :root {
@@ -11945,29 +11945,4 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
-}
-* {
-  -webkit-hyphens: auto;
-          hyphens: auto;
-}
-
-.my-table-head {
-  font-weight: normal;
-  cursor: pointer;
-}
-
-.my-table-color-1 {
-  background-color: #e9ecef;
-}
-
-.my-table-color-2 {
-  background-color: #f8f9fa;
-}
-
-.my-table-row-highlight {
-  background-color: red;
-}
-
-.navbar-brand img {
-  height: 5rem;
-}/*# sourceMappingURL=styles.css.map */
+}/*# sourceMappingURL=bootstrap.css.map */

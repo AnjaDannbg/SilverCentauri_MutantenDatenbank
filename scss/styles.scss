@@ -20,12 +20,16 @@ $container-max-widths: (
   cursor: pointer;
 }
 
-.my-tabel-color-1 {
+.my-table-color-1 {
   background-color: $gray-200;
 }
 
-.my-tabel-color-2 {
+.my-table-color-2 {
   background-color: $gray-100;
+}
+
+.my-table-row-highlight {
+  background-color: red;
 }
 
 .navbar-brand img {

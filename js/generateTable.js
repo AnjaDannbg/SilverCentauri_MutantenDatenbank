@@ -1,50 +1,5 @@
 'use strict';
 
-const MAIN_TABLE = document.getElementById('main_table');
-const COLUMN_CONTENT_TYPES = [];
-
-let currentFilterValue = '';
-let currentSortingValue = 'Produkt';
-
-const setCurrentFilterValue = (filterValue) => currentFilterValue = filterValue;
-const setCurrentSortingValue = (sortingValue) => currentSortingValue = sortingValue;
-
-
-let mutantDataCSV =
-  `Produkt,Startjahr,Endjahr,Tierart,Anzahl Tiere,Erfolgsquote,Erfolgreiche Mutierungen,Kommentar
-SIM1,1999,2001,Langschwanzmakake,50,8%,4,[Kommentar]
-SIM2,2001,2002,Langschwanzmakake,80,17%,14,[Kommentar]
-SIM3,2001,2006,Langschwanzmakake,200,26%,52,Einführung Kaninchen
-SIM4,2006,2011,Langschwanzmakake,100,12%,12,[Kommentar]
-SIM5,2012,2017,Langschwanzmakake,400,40%,160,Einführung Katzen
-SIM6,2018,2023,Langschwanzmakake,300,81%,243,[Kommentar]
-SIM7,2024,2027,Langschwanzmakake,200,87%,174,[Kommentar]
-CUN1,2002,2002,Kaninchen,120,5%,6,[Kommentar]
-CUN2,2003,2004,Kaninchen,50,6%,3,[Kommentar]
-CUN3,2004,2008,Kaninchen,400,10%,40,[Kommentar]
-CUN4,2008,2013,Kaninchen,1200,23%,276,Erfolgreiche Kommerzialisierung
-CUN5,2012,2014,Kaninchen,100,22%,22,[Kommentar]
-CUN6,2015,2020,Kaninchen,400,64%,256,[Kommentar]
-CUN7,2021,2026,Kaninchen,400,63%,252,[Kommentar]
-CUN8,2027,2027,Kaninchen,40,64%,26,[Kommentar]
-FEL1,2016,2016,Katze,100,4%,4,[Kommentar]
-FEL2,2016,2017,Katze,150,9%,14,[Kommentar]
-FEL3,2017,2022,Katze,400,30%,120,Pause
-FEL4,2018,2022,Katze,300,57%,171,Linus
-FEL5,2023,2027,Katze,500,53%,265,[Kommentar]
-FEL6,2025,2027,Katze,100,54%,54,LinusII
-CAN1,2017,2017,Hund,100,2%,2,[Kommentar]
-CAN2,2017,2017,Hund,100,10%,10,[Kommentar]
-CAN3,2017,2019,Hund,300,28%,84,Bellé
-CAN4,2018,2023,Hund,520,54%,281,[Kommentar]
-CAN5,2023,2027,Hund,300,53%,159,[Kommentar]`;
-
-const covertCSVToArray = (csv) => {
-  let objectArray = csv.split('\n').map(csvLine => csvLine.split(','));
-  return objectArray;
-
-}
-
 // Array mit Datentyp von Tabellenspalte erzeugen
 const rememberColumnContentTypes = (tableContentArray) => {
 
@@ -58,17 +13,6 @@ const rememberColumnContentTypes = (tableContentArray) => {
       COLUMN_CONTENT_TYPES.push('string');
     }
   }
-}
-
-// Wandle Kommazahlen oder Prozent in Zahl um
-const asNumber = (content) => {
-  if (String(content).endsWith('%')) {
-    content = content.substring(0, content.length - 1).trim();
-  }
-  content.replace(',', '.'); // Kommazahl in englische Schreibweise umwandeln
-  // console.log('content type: ', typeof Number(content));
-  // console.log('content: ', Number(content));
-  return Number(content);
 }
 
 // Generiere und befülle Tabelle
@@ -108,9 +52,36 @@ const removeEmptyInput = (table) => {
 
 // Färbe Tabelle ein
 const colorizeTable = (table) => {
-  table.querySelectorAll(`.row:nth-child(2n)`).forEach(row => row.classList.add('my-tabel-color-1'));
-  table.querySelectorAll(`.row:nth-child(2n+1)`).forEach(row => row.classList.add('my-tabel-color-2'));
+  table.querySelectorAll(`.row:nth-child(2n)`).forEach(row => row.classList.add('my-table-color-1'));
+  table.querySelectorAll(`.row:nth-child(2n+1)`).forEach(row => row.classList.add('my-table-color-2'));
   table.querySelector(`.my-table-head`).classList.add('bg-secondary', 'bg-gradient', 'text-white');
+}
+
+// TODO:
+const highlightFoundMutantNumber = (table) => {
+  const product = $('select#produkt').value;
+  const mNrP1 = getCurrentMutantNumberP1();
+  const mNrP2 = getCurrentMutantNumberP2();
+  const mNrP3 = getCurrentMutantNumberP3();
+  const mNrP4 = getCurrentMutantNumberP4();
+
+  const completeMutantNumber = product + '-' + mNrP1 + ' ' + mNrP2 + ' ' + mNrP3 + ' ' + mNrP4;
+  console.log('SEARCH_VALUE:', completeMutantNumber);
+  
+  if (isMutantNumber(product, mNrP1, mNrP2, mNrP3, mNrP4)) {
+    let resultRowArray = Array.from(table.querySelectorAll(`.row:not(.my-table-head)`)).filter( row => row); // TODO
+    console.log('ist Mutantennummer');
+    $('p#mutant-number-result').innerHTML = `<strong>${completeMutantNumber}</strong> ist eine gültige Mutantennummer.`
+    //highlightTableRow(resultRowArray);
+  } else {
+    console.log('ist keine Mutantennummer');
+    $('p#mutant-number-result').innerHTML = `<strong>${completeMutantNumber}</strong> ist keine gültige Mutantennummer.`
+  }
+}
+
+// Highlighte eine Tabellenzeile
+const highlightTableRow = (tableRow) => {
+  tableRow.classList.add('my-table-row-highlight');
 }
 
 // Sortiere den Tabelleninhalt:
@@ -153,13 +124,9 @@ const filterTableBy = (filterText, tableContentArray) => {
 
 const updateTable = (tableContentArray, table) => {
 
-  let filteredContentArray = filterTableBy(currentFilterValue, tableContentArray); // filtern
-  let sortedContentArray = sortTableBy(currentSortingValue, filteredContentArray, table); // sortieren
+  let filteredContentArray = filterTableBy(getCurrentFilterValue(), tableContentArray); // filtern
+  let sortedContentArray = sortTableBy(getCurrentSortingValue(), filteredContentArray, table); // sortieren
 
   fillTableWithContent(sortedContentArray, table); // Tabelle ausfüllen
+  highlightFoundMutantNumber(table);
 }
-
-
-
-
-
