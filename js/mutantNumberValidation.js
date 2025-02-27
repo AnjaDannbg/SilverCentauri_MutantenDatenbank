@@ -25,6 +25,10 @@ const isMutantNumber = (product, productNr, gender, birthDate, mutantNr) => {
   }
   if (isNaN(new Date(convertToDate(birthDate)))){
     console.log('Datum stimmt nicht');
+      return false;
+    }
+  if(!birthDateCorrespondsWithProduct(product, birthDate)) {
+    console.log('Datum stimmt nicht mit Produkt überein');
     return false;
   }
    if (mutantNr < 1) {
@@ -35,11 +39,26 @@ const isMutantNumber = (product, productNr, gender, birthDate, mutantNr) => {
   return true;
 }
 
+const birthDateCorrespondsWithProduct = (product, birthDate) => {
+  const birthYear = birthDate.substring(4, 8);
+  console.log("birthYear ----->", birthYear);
+
+  let productArray = getOriginalMutantData().find(productArray => 
+    productArray[0] === product)
+
+  const productStartYear = productArray[1];
+  const productEndYear = productArray[2];
+  console.log("productStartYear ----->", productStartYear);
+  console.log("productEndYear ----->", productEndYear);
+  
+  return (birthYear >= productStartYear && birthYear <= productEndYear);
+}
+
 const convertToDate = (date) => {
   if (date.length === 8) {
     const day = date.substring(0, 2)
     const month = date.substring(2, 4)
-    const year = date.substring(5, 9)
+    const year = date.substring(4, 8)
     return year + '/' + month + '/' + day;
 
   }
