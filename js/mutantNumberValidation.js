@@ -13,23 +13,23 @@ const isMutantNumber = (product, productNr, gender, birthDate, mutantNr) => {
 
   if (product.length === 0) {
     console.log('Produkt stimmt nicht');
-    return false
+    return false;
   }
   if (productNr === 0) {
     console.log('Produktnummer stimmt nicht');
-    return false
+    return false;
   }
   if (!(Number(gender) === 1 || Number(gender) === 2)) {
     console.log('Geschlecht stimmt nicht');
-    return false
+    return false;
   }
   if (isNaN(new Date(convertToDate(birthDate)))){
     console.log('Datum stimmt nicht');
-    return false
+    return false;
   }
    if (mutantNr < 1) {
     console.log('Mutantennummer stimmt nicht');
-    return false
+    return false;
   };
 
   return true;

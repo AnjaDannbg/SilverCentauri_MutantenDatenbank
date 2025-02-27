@@ -1,13 +1,13 @@
 'use strict';
 
-const processFormInput = () => {
+const saveMutantNumberInput = () => {
   setCurrentMutantNumberP1($('input[name = "mutant-number-p1"]').value);
   setCurrentMutantNumberP2($('input[name = "mutant-number-p2"]').value);
   setCurrentMutantNumberP3($('input[name = "mutant-number-p3"]').value);
   setCurrentMutantNumberP4($('input[name = "mutant-number-p4"]').value);
 }
 
-const checkMutantNumber = () => {
+const checkInputMutantNumber = () => {
   let tableContentArray = getOriginalMutantData();
   updateTable(tableContentArray, MAIN_TABLE);
 }
@@ -31,17 +31,17 @@ const setClickableHeader = (table) => {
 }
 
 // EVENT: Mutantennummer suchen
-document.querySelectorAll('input[name ^= "mutant-number"]').forEach(input => input.addEventListener('keyup', (event) => {
+document.querySelectorAll('input[name ^= "mutant-number"]').forEach(input => input.addEventListener('keyup', () => {
   // Handling
-  processFormInput();
-  checkMutantNumber();
+  saveMutantNumberInput();
+  checkInputMutantNumber();
 }));
 
 // EVENT: Mutantennummer suchen
-document.querySelector('select[name = "produkt"]').addEventListener('change', (event) => {
+document.querySelector('select[name = "produkt"]').addEventListener('change', () => {
   // Handling
-  processFormInput();
-  checkMutantNumber();
+  saveMutantNumberInput();
+  checkInputMutantNumber();
 });
 
 

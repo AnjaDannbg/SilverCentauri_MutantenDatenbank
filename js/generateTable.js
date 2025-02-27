@@ -71,11 +71,11 @@ const highlightFoundMutantNumber = (table) => {
   if (isMutantNumber(product, mNrP1, mNrP2, mNrP3, mNrP4)) {
     let resultRowArray = Array.from(table.querySelectorAll(`.row:not(.my-table-head)`)).filter( row => row); // TODO
     console.log('ist Mutantennummer');
-    $('p#mutant-number-result').innerHTML = `<strong>${completeMutantNumber}</strong> ist eine gültige Mutantennummer.`
+    $('p#mutant-number-result').innerHTML = `<strong class="text-success">${completeMutantNumber}</strong> ist eine gültige Mutantennummer.`
     //highlightTableRow(resultRowArray);
   } else {
     console.log('ist keine Mutantennummer');
-    $('p#mutant-number-result').innerHTML = `<strong>${completeMutantNumber}</strong> ist keine gültige Mutantennummer.`
+    $('p#mutant-number-result').innerHTML = `<strong class="text-danger">${completeMutantNumber}</strong> ist keine gültige Mutantennummer.`
   }
 }
 

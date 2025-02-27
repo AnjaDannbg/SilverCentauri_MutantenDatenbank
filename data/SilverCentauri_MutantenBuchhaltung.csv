@@ -1,0 +1,27 @@
+﻿Produktionsserie;Anfangsjahr;Endjahr;Tierarten;Mutierte Tiere;Erfolgsquote;Erfolgreiche Mutationen;Kommentar
+SIM1;1999;2001;Rhesusaffen;50;8 %;4;
+SIM2;2001;2002;Rhesusaffen;80;17 %;14;
+SIM3;2001;2006;Rhesusaffen;200;26 %;52;Einführung Kaninchen
+SIM4;2006;2011;Rhesusaffen;100;12 %;12;
+SIM5;2012;2017;Rhesusaffen;400;40 %;160;Einführung Katzen
+SIM6;2018;2023;Rhesusaffen;300;81 %;243;
+SIM7;2024;2027;Rhesusaffen;200;87 %;174;
+CUN1;2002;2002;Kaninchen;120;5 %;6;
+CUN2;2003;2004;Kaninchen;50;6 %;3;
+CUN3;2004;2008;Kaninchen;400;10 %;40;
+CUN4;2008;2013;Kaninchen;1200;23 %;276;Erfolgreiche Kommerzialisierung
+CUN5;2012;2014;Kaninchen;100;22 %;22;
+CUN6;2015;2020;Kaninchen;400;64 %;256;
+CUN7;2021;2026;Kaninchen;400;63 %;252;
+CUN8;2027;2027;Kaninchen;40;64 %;26;
+FEL1;2016;2016;Katzen;100;4 %;4;
+FEL2;2016;2017;Katzen;150;9 %;14;
+FEL3;2017;2022;Katzen;400;30 %;120;Pause
+FEL4;2018;2022;Katzen;300;57 %;171;Linus
+FEL5;2023;2027;Katzen;500;53 %;265;
+FEL6;2025;2027;Katzen;100;54 %;54;LinusII
+CAN1;2017;2017;Hunde;100;2 %;2;
+CAN2;2017;2017;Hunde;100;10 %;10;
+CAN3;2017;2019;Hunde;300;28 %;84;Bellé
+CAN4;2018;2023;Hunde;520;54 %;281;
+CAN5;2023;2027;Hunde;300;53 %;159;
