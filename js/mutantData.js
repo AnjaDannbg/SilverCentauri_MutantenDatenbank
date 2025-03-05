@@ -29,6 +29,10 @@ CAN3,2017,2019,Hund,300,28%,84,Bellé
 CAN4,2018,2023,Hund,520,54%,281,[Kommentar]
 CAN5,2023,2027,Hund,300,53%,159,[Kommentar]`;
 
+const possibleMutantNumbersCSV =
+`FEL3-35 2 01072018 893
+FEL4-142 1 18082021 1531`;
+
 // WORK IN PROGRESS:
 const generateProductInYearTable = (originalMutantData) => {
   let mutantCountTable = {};

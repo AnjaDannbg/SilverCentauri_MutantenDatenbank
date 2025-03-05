@@ -2,7 +2,9 @@
 
 const MAIN_TABLE = document.getElementById('main_table');
 const originalMutantData = covertCSVToArray(mutantDataCSV);
+
 const COLUMN_CONTENT_TYPES = [];
+const possibleMutantNumbers = possibleMutantNumbersCSV.split('\n');
 
 let currentFilterValue = '';
 let currentSortingValue = '';
@@ -26,7 +28,7 @@ const getCurrentMutantNumberP3 = () => currentMutantNumberP3;
 const getCurrentMutantNumberP4 = () => currentMutantNumberP4;
 
 const getOriginalMutantData = () => originalMutantData.map(a => a);
-
+const getPossibleMutantNumbers = () => possibleMutantNumbers.map(a => a);
 const generateMutantDataObject = () => {
   let mutantDataObject = {};
   const mutantDataArrays = getOriginalMutantData();

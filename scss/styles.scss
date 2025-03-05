@@ -40,6 +40,18 @@ $container-max-widths: (
   height: 5rem;
 }
 
+#possible-mutant-numbers button {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+#possible-mutant-numbers li p {
+  height: 1.5rem;
+  padding: 0 !important;
+}
+
 fieldset#mutant-number-search input[type="number"] {
   // Entfernt die Pfeile in WebKit-Browsern (Chrome, Edge, Safari, Opera)
   &::-webkit-inner-spin-button,

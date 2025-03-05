@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 const saveMutantNumberInput = () => {
   setCurrentMutantNumberP1($('input[name = "mutant-number-p1"]').value);
   setCurrentMutantNumberP2($('input[name = "mutant-number-p2"]').value);
@@ -44,6 +46,10 @@ document.querySelector('select[name = "mutant-number-product"]').addEventListene
   checkInputMutantNumber();
 });
 
+document.querySelectorAll('#possible-mutant-numbers li button').forEach(input => input.addEventListener('click', (event) => {
+  event.preventDefault();
+  fillMutantNumberForm(event.target.nextElementSibling.textContent);
+}))
 
 
 
