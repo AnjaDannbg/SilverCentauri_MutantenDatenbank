@@ -11968,6 +11968,10 @@ textarea.form-control-lg {
   background-color: red;
 }
 
+.my-invalid-input {
+  background-color: var(--bs-danger-border-subtle);
+}
+
 .navbar-brand img {
   height: 5rem;
 }/*# sourceMappingURL=styles.css.map */

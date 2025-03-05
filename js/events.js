@@ -38,7 +38,7 @@ document.querySelectorAll('input[name ^= "mutant-number"]').forEach(input => inp
 }));
 
 // EVENT: Mutantennummer suchen
-document.querySelector('select[name = "produkt"]').addEventListener('change', () => {
+document.querySelector('select[name = "mutant-number-product"]').addEventListener('change', () => {
   // Handling
   saveMutantNumberInput();
   checkInputMutantNumber();

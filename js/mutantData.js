@@ -28,3 +28,40 @@ CAN2,2017,2017,Hund,100,10%,10,[Kommentar]
 CAN3,2017,2019,Hund,300,28%,84,Bellé
 CAN4,2018,2023,Hund,520,54%,281,[Kommentar]
 CAN5,2023,2027,Hund,300,53%,159,[Kommentar]`;
+
+// WORK IN PROGRESS:
+const generateProductInYearTable = (originalMutantData) => {
+  let mutantCountTable = {};
+  // Überschriften entfernen;
+  originalMutantData.shift();
+
+  originalMutantData.forEach(mutantDataArray => {
+    const startYear = Number(mutantDataArray[1]);
+    const endYear = Number(mutantDataArray[2]);
+    for (let year=startYear; year<=endYear; year++) {
+
+      // Jahreseintrag existiert nicht => Eintrag hinzufügen
+      if(!Object.keys(mutantCountTable).some( key => key === year)) {
+        mutantCountTable[`${year}`] = Number(mutantDataArray[6]);
+      }
+      // Jahreseintrag existiert bereits => Zahl addieren
+      else {
+        mutantCountTable[`${year}`] += Number(mutantDataArray[6]);
+      }
+
+    }
+  })
+
+  console.table(mutantCountTable);
+  return mutantCountTable;
+}
+
+// Berechnet, wie viele Mutanten des Produkts in diesem Jahr entstanden sind
+
+// WORK IN PROGRESS:
+const producedMutantsInYear = (product, year) => {
+  const mutantProduct = getOriginalMutantDataObject()[product];
+  const productLifespan = Number(mutantProduct.Endjahr) - Number(mutantProduct.Startjahr);
+  const successfullyProductedMutants = mutantProduct['Erfolgreiche Mutierungen'];
+  // erstes Jahr ist die Restzahl
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 const MAIN_TABLE = document.getElementById('main_table');
-const ORIGINAL_MUTANT_DATA = covertCSVToArray(mutantDataCSV);
+const originalMutantData = covertCSVToArray(mutantDataCSV);
 const COLUMN_CONTENT_TYPES = [];
 
 let currentFilterValue = '';
@@ -25,4 +25,26 @@ const getCurrentMutantNumberP2 = () => currentMutantNumberP2;
 const getCurrentMutantNumberP3 = () => currentMutantNumberP3;
 const getCurrentMutantNumberP4 = () => currentMutantNumberP4;
 
-const getOriginalMutantData = () => ORIGINAL_MUTANT_DATA.map(a => a);
+const getOriginalMutantData = () => originalMutantData.map(a => a);
+
+const generateMutantDataObject = () => {
+  let mutantDataObject = {};
+  const mutantDataArrays = getOriginalMutantData();
+  const headerArray = mutantDataArrays.shift(); // Überschriften entfernen
+
+  mutantDataArrays.forEach(productArray => {
+    let productObject = {};
+    headerArray.forEach((header, i) => {
+      productObject[header] = productArray[i];
+    })
+    mutantDataObject[productArray[0]] = productObject;
+  })
+  return mutantDataObject;
+}
+
+// WORK IN PROGRESS:
+const productInYearTable = generateProductInYearTable(getOriginalMutantData());
+
+// Mutantendaten aus CVS als JavaScript Object:
+const originalMutantDataObject = generateMutantDataObject();
+const getOriginalMutantDataObject = () => originalMutantDataObject;

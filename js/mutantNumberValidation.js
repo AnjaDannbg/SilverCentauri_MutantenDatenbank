@@ -9,34 +9,31 @@ const isMutantNumber = (product, productNr, gender, birthDate, mutantNr) => {
   // const BIRTH_DATE = inputValue.split(/[- ]/g)[2].substring(1, 9);
   // const MUTANT_NUMBER = inputValue.split(/[- ]/g)[2].substring(9, inputValue.length);
 
+  const checkArray = [0, 0, 0, 0, 0];
   console.log(product, productNr, gender, birthDate, mutantNr)
 
-  if (product.length === 0) {
-    console.log('Produkt stimmt nicht');
-    return false;
-  }
-  if (productNr === 0) {
-    console.log('Produktnummer stimmt nicht');
-    return false;
-  }
-  if (!(Number(gender) === 1 || Number(gender) === 2)) {
-    console.log('Geschlecht stimmt nicht');
-    return false;
-  }
-  if (isNaN(new Date(convertToDate(birthDate)))){
-    console.log('Datum stimmt nicht');
-      return false;
-    }
-  if(!birthDateCorrespondsWithProduct(product, birthDate)) {
-    console.log('Datum stimmt nicht mit Produkt überein');
-    return false;
-  }
-   if (mutantNr < 1) {
-    console.log('Mutantennummer stimmt nicht');
-    return false;
-  };
+  if (product.length !== 0) {
+    checkArray[0] = 1;
+  } else console.log('Produkt stimmt nicht');
 
-  return true;
+  if (productNrCorrespondsWithProduct(product, productNr)) {
+    checkArray[1] = 1;
+  } else console.log('Produktnummer stimmt nicht');
+
+  if ((Number(gender) === 1 || Number(gender) === 2)) {
+    checkArray[2] = 1;
+  } else console.log('Geschlecht stimmt nicht');
+
+  if (!isNaN(new Date(convertToDate(birthDate))) && birthDateCorrespondsWithProduct(product, birthDate)){
+    checkArray[3] = 1;
+  } else console.log('Datum stimmt nicht');
+
+  if (mutantNr > 0) {
+    checkArray[4] = 1;
+  } else console.log('Mutantennummer stimmt nicht');
+
+  colorInvalidFormInput(checkArray);
+  return checkArray.every(digit => digit === 1) ? true : false;
 }
 
 const birthDateCorrespondsWithProduct = (product, birthDate) => {
@@ -52,6 +49,19 @@ const birthDateCorrespondsWithProduct = (product, birthDate) => {
   console.log("productEndYear ----->", productEndYear);
   
   return (birthYear >= productStartYear && birthYear <= productEndYear);
+}
+
+const productNrCorrespondsWithProduct = (product, productNr) => {
+  let productArray = getOriginalMutantData().find(productArray => 
+    productArray[0] === product)
+
+    const maxProductNr = Number(productArray[6]);
+
+    return (productNr > 0 && productNr <= maxProductNr);
+}
+
+const mutantNrCorrespondsWithProduct = (product, mutantNr) => {
+
 }
 
 const convertToDate = (date) => {
