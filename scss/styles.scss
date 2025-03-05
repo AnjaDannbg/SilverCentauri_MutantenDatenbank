@@ -39,3 +39,15 @@ $container-max-widths: (
 .navbar-brand img {
   height: 5rem;
 }
+
+fieldset#mutant-number-search input[type="number"] {
+  // Entfernt die Pfeile in WebKit-Browsern (Chrome, Edge, Safari, Opera)
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  // Entfernt die Pfeile in Firefox
+  -moz-appearance: textfield;
+}

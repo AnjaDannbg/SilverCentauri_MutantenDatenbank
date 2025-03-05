@@ -11974,4 +11974,12 @@ textarea.form-control-lg {
 
 .navbar-brand img {
   height: 5rem;
+}
+
+fieldset#mutant-number-search input[type=number] {
+  -moz-appearance: textfield;
+}
+fieldset#mutant-number-search input[type=number]::-webkit-inner-spin-button, fieldset#mutant-number-search input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }/*# sourceMappingURL=styles.css.map */
