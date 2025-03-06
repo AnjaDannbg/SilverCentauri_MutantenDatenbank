@@ -52,6 +52,11 @@ $container-max-widths: (
   padding: 0 !important;
 }
 
+main {
+  // Bildschirmgröße - Headerhöhe - Footerhöhe
+  min-height: calc(100vh - 168px - 128px);
+}
+
 fieldset#mutant-number-search input[type="number"] {
   // Entfernt die Pfeile in WebKit-Browsern (Chrome, Edge, Safari, Opera)
   &::-webkit-inner-spin-button,

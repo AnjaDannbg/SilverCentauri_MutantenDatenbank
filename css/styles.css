@@ -11988,6 +11988,10 @@ textarea.form-control-lg {
   padding: 0 !important;
 }
 
+main {
+  min-height: calc(100vh - 168px - 128px);
+}
+
 fieldset#mutant-number-search input[type=number] {
   -moz-appearance: textfield;
 }
