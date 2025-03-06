@@ -1,6 +1,5 @@
 'use strict';
 
-// TODO:
 const isMutantNumber = (product, productNr, gender, birthDate, mutantNr) => {
 
   // const PRODUCT = inputValue.substring(0, 4);
@@ -51,6 +50,7 @@ const birthDateCorrespondsWithProduct = (product, birthDate) => {
   return (birthYear >= productStartYear && birthYear <= productEndYear);
 }
 
+// TODO
 const productNrCorrespondsWithProduct = (product, productNr) => {
   let productArray = getOriginalMutantData().find(productArray => 
     productArray[0] === product)

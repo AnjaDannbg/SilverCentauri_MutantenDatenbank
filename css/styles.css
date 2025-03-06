@@ -11964,8 +11964,8 @@ textarea.form-control-lg {
   background-color: #f8f9fa;
 }
 
-.my-table-row-highlight {
-  background-color: red;
+.my-table-cell-highlight {
+  background-color: var(--bs-danger-border-subtle);
 }
 
 .my-invalid-input {

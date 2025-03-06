@@ -28,8 +28,8 @@ $container-max-widths: (
   background-color: $gray-100;
 }
 
-.my-table-row-highlight {
-  background-color: red;
+.my-table-cell-highlight {
+  background-color: var(--bs-danger-border-subtle);
 }
 
 .my-invalid-input {

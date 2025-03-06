@@ -57,7 +57,7 @@ const colorizeTable = (table) => {
   table.querySelector(`.my-table-head`).classList.add('bg-secondary', 'bg-gradient', 'text-white');
 }
 
-// TODO:
+// Färbe Tabllenzeile ein und erstelle Validierungsausgabe:
 const highlightFoundMutantNumber = (table) => {
   const product = $('select#produkt').value;
   const mNrP1 = getCurrentMutantNumberP1();
@@ -69,10 +69,14 @@ const highlightFoundMutantNumber = (table) => {
   console.log('SEARCH_VALUE:', completeMutantNumber);
   
   if (isMutantNumber(product, mNrP1, mNrP2, mNrP3, mNrP4)) {
-    let resultRowArray = Array.from(table.querySelectorAll(`.row:not(.my-table-head)`)).filter( row => row); // TODO
+    // Färbe korrekte Tabellenzeile ein
+    table.querySelectorAll(`div.row`).forEach(row => {
+      if(row.querySelector('div:first-Child').textContent === product) {
+        highlightTableRow(table, row);
+      }
+    });
     console.log('ist Mutantennummer');
     $('p#mutant-number-result').innerHTML = `<strong class="text-success">${completeMutantNumber}</strong> ist eine gültige Mutantennummer.`
-    //highlightTableRow(resultRowArray);
   } else {
     console.log('ist keine Mutantennummer');
     $('p#mutant-number-result').innerHTML = `<strong class="text-danger">${completeMutantNumber}</strong> ist keine gültige Mutantennummer.`
@@ -80,8 +84,8 @@ const highlightFoundMutantNumber = (table) => {
 }
 
 // Highlighte eine Tabellenzeile
-const highlightTableRow = (tableRow) => {
-  tableRow.classList.add('my-table-row-highlight');
+const highlightTableRow = (table, tableRow) => {
+  tableRow.querySelectorAll('div').forEach(cell => cell.classList.add('my-table-cell-highlight'));
 }
 
 // Sortiere den Tabelleninhalt:
