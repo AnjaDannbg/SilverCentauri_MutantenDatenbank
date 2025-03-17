@@ -17,7 +17,7 @@ Gebe einen Wert in das Formularfeld *Filter* ein, um die Tabelle danach zu filte
 ### Formular *Mutantennummer*
 Fülle die Formularfelder im Formular *Mutantennummer* aus, um zu prüfen, ob die Werte eine gültige Mutantennummer ergeben.
 
-Falls die Mutantennummer valide ist, erscheint der **grüne Text**:
+Falls die Mutantennummer valide ist, wird der passende Eintrag in der Tabelle hellrot markiert und es erscheint der **grüne Text**:
 > XXXX-X X XXXXXXXX X ist eine gültige Mutantennummer.
 
 Andernfalls werden die Felder mit falscher Eingabe rot markiert und es erscheint der **rote Text**:
