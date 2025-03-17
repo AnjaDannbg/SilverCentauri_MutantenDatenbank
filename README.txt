@@ -26,5 +26,6 @@ Andernfalls werden die Felder mit falscher Eingabe rot markiert und es erscheint
 ### Auswahl *Mögliche Mutantennummern*
 Clicke auf den '+'-Button neben einer möglichen Mutantennummer, um seine Werte in das Formular *Mutantennummer* zu übertragen.
 
+***
 
 Copyright (C) 2025, Anja Dannenberg
